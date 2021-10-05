@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
       },
     headerStyle: {
        backgroundColor:'#F8F8F9',
-       height: 50,
+       height: 90,
     },
     headerTitleContainerStyle: {
         justifyContent: 'center',
@@ -75,15 +75,10 @@ const styles = StyleSheet.create({
           height: 95,
           width: '100%',
           justifyContent: 'center',
-          alignItems: 'space-between',
+          alignItems: 'center',
           position: 'absolute'
       },
-    icon: {
-          marginBottom: -30
-    },
-    label: {
-        paddingBottom: 20
-    },
+
     tinyLogo: {
         width: 22,
         height: 22,
