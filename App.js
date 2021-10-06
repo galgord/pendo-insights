@@ -1,7 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, Platform} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
 import GuidesScreen from './src/screens/GuidesScreen'
 import AccountsScreen from './src/screens/AccountsScreen'
@@ -21,7 +21,6 @@ const headerRight = () =>{
     return <Feather name="settings" size={21} color="black" style={styles.settingsIcon}/>
 };
 const App = () => {
-
     const Tab = createBottomTabNavigator();
 
         return (
@@ -71,14 +70,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%'
     },
-      bottomNav: {
-          height: 95,
+    bottomNav: {
+          height: Platform.OS==='ios' ? 95 : 70,
           width: '100%',
           justifyContent: 'center',
           alignItems: 'center',
           position: 'absolute'
       },
-
     tinyLogo: {
         width: 22,
         height: 22,
