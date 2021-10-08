@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Platform} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './src/screens/HomeScreen'
-import GuidesScreen from './src/screens/GuidesScreen'
-import AccountsScreen from './src/screens/AccountsScreen'
-import LoginScreen from './src/screens/LoginScreen'
+import HomeScreen from './src/screens/HomeScreen/HomeScreen'
+import GuidesScreen from './src/screens/GuideScreen/GuidesScreen'
+import AccountsScreen from './src/screens/AccountScreen/AccountsScreen'
+import LoginScreen from './src/screens/LoginScreen/LoginScreen'
 import PendoTabBarIcon from './src/icons/PendoTabBarIcon'
 import { Feather } from '@expo/vector-icons';
 import {createStackNavigator} from "@react-navigation/stack";
@@ -24,18 +24,18 @@ const headerRight = () =>{
     return <Feather name="settings" size={21} color="black" style={styles.settingsIcon}/>
 };
 const App = () => {
-    const [user, setUser] = useState(false)
+    const [isuserAuth, setUserisUserAuth] = useState(false)
     const tempUser = useSelector(state => state.user)
 
     useEffect(() => {
-        tempUser.idToken ? setUser(tempUser): setUser(false);
+        tempUser.idToken ? setUserisUserAuth(tempUser): setUserisUserAuth(false);
     },[tempUser])
 
     const Tab = createBottomTabNavigator();
     const Stack = createStackNavigator()
         return (
         <NavigationContainer style={styles.root}>
-                { user ? (
+                { isuserAuth ? (
                     <>
                         <Tab.Navigator
                             initialRouteName="Overview"
@@ -108,4 +108,3 @@ const styles = StyleSheet.create({
     }
 });
 export default App;
-

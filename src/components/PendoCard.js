@@ -1,23 +1,23 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
-import { Card, Divider, Button, Icon } from 'react-native-elements'
+import {StyleSheet, View} from 'react-native';
+import { Card } from 'react-native-elements'
 import PendoDivider from "./PendoDivider";
-const users = [
-    {
-        name: 'brynn',
-        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-    },
-]
 
-
-const PendoCard = ({title,numberLeft,textLeft,textRight,numerRight}) => {
+const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight}) => {
     return (
         <View style={styles.root}>
             <Card containerStyle={styles.containerStyle}>
                 <Card.Title style={styles.title}>{title}</Card.Title>
                 <Card.Divider/>
                 <View style={styles.textWrapper}>
-                   <PendoDivider textLeft={textLeft} textRight={textRight} numberLeft={numberLeft} numerRight={numerRight}/>
+                   <PendoDivider
+                       textLeft={textLeft}
+                       textRight={textRight}
+                       numberLeft={numberLeft}
+                       numberRight={numberRight}
+                       isLoadingLeft={isLoadingLeft}
+                       isLoadingRight={isLoadingRight}
+                   />
                 </View>
             </Card>
         </View>

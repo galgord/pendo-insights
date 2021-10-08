@@ -1,21 +1,39 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
 
-const PendoCard = ({numberLeft,textLeft,textRight,numerRight}) => {
+const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight}) => {
     return (
         <View style={styles.root}>
                 <View style={styles.textWrapper}>
+                    { isLoadingLeft ? (
+                        <>
+                            <ActivityIndicator/>
+                        </>
+                    ):(
+                        <>
                     <View>
                         <Text style={styles.number}>{numberLeft}</Text>
                         <Text style={styles.text}>{textLeft}</Text>
                     </View>
-                    { textRight && numerRight && (<View style={styles.verticleLine}/>)}
-                    { textRight && numerRight && (
+                        </>
+                    )}
+                    { textRight && (
+                        <View style={styles.verticleLine} />
+                    )}
+                    { isLoadingRight ? (
+                        <>
+                            <ActivityIndicator/>
+                        </>
+                    ):(
+                        <>
+                    { textRight && (
                         <View>
-                        <Text style={styles.number}>{numerRight}</Text>
+                        <Text style={styles.number}>{numberRight}</Text>
                         <Text style={styles.text}>{textRight}</Text>
                         </View>
                         )}
+                        </>
+                    )}
                 </View>
         </View>
     )
