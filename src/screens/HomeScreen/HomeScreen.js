@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, Platform} from 'react-native';
 import PendoCard from "../../components/PendoCard";
 import {fetchVisitorOverviewLast30Days, parseNumber, fetchAccountOverviewLast30Days, fetchActiveGuides, fetchNPSScore} from './HomeScreen.utils'
 
@@ -32,7 +32,7 @@ const HomeScreen = () => {
         }
         async function fetchNpsScore() {
             const response = await fetchNPSScore();
-            const number = (parseNumber(response.data.messages[0].rows[0].score) * 100)
+            const number = Math.round((parseNumber(response.data.messages[0].rows[0].score).slice(0,4) * 100));
             setNpsScore(number)
         }
         fetchUniqueVisitor();

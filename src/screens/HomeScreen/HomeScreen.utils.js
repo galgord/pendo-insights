@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {Platform} from "react-native";
+
 const options = {
     headers: {
         'Content-Type': 'application/json',
@@ -14,11 +16,14 @@ async function fetchData (data) {
 }
 
 export function parseNumber(number){
-    if(number > 999999){
-        return number.toLocaleString().slice(0,4).replace(/,/g, '.') + 'm'
+    console.warn('numver',number.toLocaleString())
+    if(number > 99999){
+        return Platform.OS === 'ios' ? number.toLocaleString().slice(0,4).replace(/,/g, '.') + 'm' :
+            number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").slice(0,4).replace(/,/g, '.') + 'm';
     }
-    else if(number > 9999 && number< 999999){
-        return number.toLocaleString().slice(0,4).replace(/,/g, '.') + 'k'
+    else if(number > 9999 && number< 99999){
+        return Platform.OS === 'ios' ? number.toLocaleString().slice(0,4).replace(/,/g, '.') + 'k' :
+            number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").slice(0,4).replace(/,/g, '.') + 'k';
     }
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

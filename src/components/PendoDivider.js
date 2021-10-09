@@ -7,7 +7,7 @@ const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, is
                 <View style={styles.textWrapper}>
                     { isLoadingLeft ? (
                         <>
-                            <ActivityIndicator/>
+                            <ActivityIndicator color="#0000ff" />
                         </>
                     ):(
                         <>
@@ -22,7 +22,7 @@ const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, is
                     )}
                     { isLoadingRight ? (
                         <>
-                            <ActivityIndicator/>
+                            <ActivityIndicator color="#0000ff" />
                         </>
                     ):(
                         <>
