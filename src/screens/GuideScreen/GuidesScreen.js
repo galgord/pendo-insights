@@ -1,13 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, Text, FlatList, View, ActivityIndicator} from 'react-native';
+import {
+    StyleSheet,
+    SafeAreaView,
+    Text,
+    FlatList,
+    View,
+    ActivityIndicator,
+    Image,
+    Dimensions,
+    Platform
+} from 'react-native';
 import GuideListCard from "../../components/GuideListCard";
 import {fetchGuideList} from "./GuideScreen.utils";
 import axios from "axios";
-
 const GuidesScreen = () => {
     const [guides, setGuides] = useState(null);
     const [count, setCount] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [haveGuides, setHaveGuides] = useState(false)
     useEffect(() =>{
         async function fetchGuides() {
             setIsLoading(true)
@@ -16,6 +26,9 @@ const GuidesScreen = () => {
                 if (response.data.messages[0].url){
                     const url = response.data.messages[0].url
                     const res = await axios.get(url)
+                    if(Platform.OS === 'android') {
+                        console.warn('resp', res)
+                    }
                     const guideData = res.data.map((guide) => {
                         if(guide.name.length > 35){
                             return {
@@ -27,10 +40,9 @@ const GuidesScreen = () => {
                         }
                     })
                     setGuides(guideData)
-                    setCount(res.data.length)
+                    setCount(guideData.length)
                     setIsLoading(false)
-                }
-                else {
+                } else {
                     setGuides(response.data)
                     setCount(response.data.length)
                     setIsLoading(false)
@@ -48,7 +60,6 @@ const GuidesScreen = () => {
             state={item.state}
         />
     );
-
     return (
         <SafeAreaView style={styles.container}>
             { isLoading ? (
@@ -59,21 +70,31 @@ const GuidesScreen = () => {
                 </>
                     ):(
                 <>
-                    <View style={styles.guideCountContainer}>
-                    <Text style={styles.guideCount}> You Have {count} Public Guides </Text>
-                    </View>
-                    <View style={styles.guidesContainer}>
-                        <FlatList data={guides} renderItem={renderItem} keyExtractor={data => data.id}/>
-                    </View>
-                </>
-            )}
+                    { haveGuides ? (
+                        <>
+                            <View style={styles.imageContainer}>
+                                <Image source={require('../../assets/noGuides.png')} style={styles.noGuideImage}/>
+                            </View>
+                        </>
+                        ) : (
+                        <>
+                            <View style={styles.guideCountContainer}>
+                                <Text style={styles.guideCount}> You Have {count} Public Guides </Text>
+                            </View>
+                            <View style={styles.guidesContainer}>
+                                <FlatList data={guides} renderItem={renderItem} keyExtractor={data => data.id}/>
+                            </View>
+                        </>
+                        )}
+                        </>
+                    )}
         </SafeAreaView>
     )
 };
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        marginBottom: 100,
+        marginBottom: 165,
         alignItems: 'center',
     },
     loading: {
@@ -99,6 +120,15 @@ const styles = StyleSheet.create({
     },
     guidesContainer: {
         width: '90%'
+    },
+    noGuideImage: {
+        width: Dimensions.get('window').width - 20,
+        height: 350,
+        marginTop: 15
+    },
+    imageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
