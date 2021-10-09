@@ -26,9 +26,6 @@ const GuidesScreen = () => {
                 if (response.data.messages[0].url){
                     const url = response.data.messages[0].url
                     const res = await axios.get(url)
-                    if(Platform.OS === 'android') {
-                        console.warn('resp', res)
-                    }
                     const guideData = res.data.map((guide) => {
                         if(guide.name.length > 35){
                             return {

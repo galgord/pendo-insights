@@ -3,11 +3,19 @@ import {StyleSheet, View} from 'react-native';
 import { Card } from 'react-native-elements'
 import PendoDivider from "./PendoDivider";
 
-const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight}) => {
+const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight, filter}) => {
     return (
         <View style={styles.root}>
             <Card containerStyle={styles.containerStyle}>
-                <Card.Title style={styles.title}>{title}</Card.Title>
+                <View style={styles.titleStyle}>
+                    <View>
+                        <Card.Title style={styles.title}>{title}</Card.Title>
+                    </View>
+                    { filter && (<View style={styles.filterContainer}>
+                        <Card.Title style={styles.filter}>{filter}</Card.Title>
+                    </View>
+                    )}
+                </View>
                 <Card.Divider/>
                 <View style={styles.textWrapper}>
                    <PendoDivider
@@ -39,6 +47,22 @@ const styles = StyleSheet.create({
     textWrapper:{
         flexDirection: 'row',
     },
+    titleStyle: {
+        flexDirection: 'row',
+    },
+    filterContainer:{
+      flex: 1,
+      alignItems: 'flex-end',
+      justifyContent: 'center'
+    },
+    filter: {
+        fontSize: 12,
+        lineHeight: 14,
+        borderRadius: 3,
+        borderColor: '#DADCE5',
+        borderWidth: 1,
+        padding: 6
+    }
 });
 
 export default PendoCard;

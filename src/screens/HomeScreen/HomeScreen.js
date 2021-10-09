@@ -60,6 +60,7 @@ const HomeScreen = () => {
                     numberLeft={visitorOverview}
                     isLoadingLeft={isLoadingVisitorOverview}
                     isLoadingRight={isLoadingAccountOverview}
+                    filter={'Last 30 Days'}
             />
             <PendoCard
                 title='Guides Overview'
@@ -74,6 +75,7 @@ const HomeScreen = () => {
                 title='Time On App'
                 textLeft='Daily Average'
                 numberLeft='4m'
+                filter={'Last 30 Days'}
             />
         </ScrollView>
     )
