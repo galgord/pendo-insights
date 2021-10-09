@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
 
-const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight}) => {
+const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight, textStyle,labelStyle}) => {
     return (
         <View style={styles.root}>
                 <View style={styles.textWrapper}>
@@ -12,8 +12,8 @@ const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, is
                     ):(
                         <>
                     <View>
-                        <Text style={styles.number}>{numberLeft}</Text>
-                        <Text style={styles.text}>{textLeft}</Text>
+                        <Text style={[styles.number, textStyle]}>{numberLeft}</Text>
+                        <Text style={[styles.text, labelStyle]}>{textLeft}</Text>
                     </View>
                         </>
                     )}
@@ -28,8 +28,8 @@ const PendoCard = ({numberLeft,textLeft,textRight,numberRight, isLoadingLeft, is
                         <>
                     { textRight && (
                         <View>
-                        <Text style={styles.number}>{numberRight}</Text>
-                        <Text style={styles.text}>{textRight}</Text>
+                        <Text style={[styles.number, textStyle]}>{numberRight}</Text>
+                        <Text style={[styles.text, labelStyle]}>{textRight}</Text>
                         </View>
                         )}
                         </>

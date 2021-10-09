@@ -38,6 +38,7 @@ const GuidesScreen = () => {
                     })
                     setGuides(guideData)
                     setCount(guideData.length)
+                    setHaveGuides(true)
                     setIsLoading(false)
                 } else {
                     setGuides(response.data)
@@ -67,7 +68,7 @@ const GuidesScreen = () => {
                 </>
                     ):(
                 <>
-                    { haveGuides ? (
+                    { !haveGuides ? (
                         <>
                             <View style={styles.imageContainer}>
                                 <Image source={require('../../assets/noGuides.png')} style={styles.noGuideImage}/>

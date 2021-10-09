@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import { Card } from 'react-native-elements'
 import PendoDivider from "./PendoDivider";
-
-const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight, filter}) => {
+import FilterIcon from "./FilterIcon";
+const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLeft, isLoadingRight, filter, labelStyle, textStyle}) => {
     return (
         <View style={styles.root}>
             <Card containerStyle={styles.containerStyle}>
@@ -11,10 +11,11 @@ const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLe
                     <View>
                         <Card.Title style={styles.title}>{title}</Card.Title>
                     </View>
-                    { filter && (<View style={styles.filterContainer}>
-                        <Card.Title style={styles.filter}>{filter}</Card.Title>
-                    </View>
-                    )}
+                    { filter && (
+                        <View style={styles.filterContainer}>
+                            <FilterIcon filter={filter}/>
+                        </View>
+                            )}
                 </View>
                 <Card.Divider/>
                 <View style={styles.textWrapper}>
@@ -25,6 +26,8 @@ const PendoCard = ({title,numberLeft,textLeft,textRight,numberRight, isLoadingLe
                        numberRight={numberRight}
                        isLoadingLeft={isLoadingLeft}
                        isLoadingRight={isLoadingRight}
+                       textStyle={textStyle}
+                       labelStyle={labelStyle}
                    />
                 </View>
             </Card>
@@ -54,14 +57,6 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'flex-end',
       justifyContent: 'center'
-    },
-    filter: {
-        fontSize: 12,
-        lineHeight: 14,
-        borderRadius: 3,
-        borderColor: '#DADCE5',
-        borderWidth: 1,
-        padding: 6
     }
 });
 
