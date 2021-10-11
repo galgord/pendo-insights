@@ -1,21 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, Text, View, FlatList, ActivityIndicator} from 'react-native';
+import {StyleSheet, SafeAreaView, Text, View, FlatList, ActivityIndicator, Pressable} from 'react-native';
 import PendoCard from "../../components/PendoCard";
 import AccountListItem from "../../components/AccountListItem";
 import {fetchAccounts} from './AccountScreen.utils'
 import axios from "axios";
+import headerLeft from "../../components/headerLeft";
 
 
-const renderItem = ({item}) => (
-    <AccountListItem
-        accountId={item.accountId}
-    />
-);
 
-const AccountsScreen = () => {
+const AccountsScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [accounts, setAccounts] = useState(null);
 
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            navigation.getParent().setOptions({
+                headerTitle: 'Accounts',
+                headerLeft
+            })
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     useEffect(() =>{
         async function fetchAccountList() {
@@ -49,6 +55,13 @@ const AccountsScreen = () => {
         fetchAccountList();
     }, [])
 
+    const renderItem = ({item}) => (
+        <Pressable onPress={() => navigation.navigate('AccountOverview', {account:item})}>
+            <AccountListItem
+                accountId={item.accountId}
+            />
+        </Pressable>
+    );
 
     return (
         <SafeAreaView style={styles.root}>

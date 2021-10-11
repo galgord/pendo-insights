@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen'
 import GuidesScreen from './src/screens/GuideScreen/GuidesScreen'
 import AccountsScreen from './src/screens/AccountScreen/AccountsScreen'
+import AccountOverviewScreen from './src/screens/AccountOverviewScreen/AccountOverviewScreen'
 import LoginScreen from './src/screens/LoginScreen/LoginScreen'
 import GuideMetricScreen from './src/screens/GuideMetricScreen/GuideMetricsScreen'
 import LogoutScreen from './src/screens/LogoutScreen/LogoutScreen'
@@ -29,6 +30,17 @@ const GuideNavigation = () => {
                 headerShown: false,
             })}/>
         </GuideStack.Navigator>
+    )
+}
+
+const AccountStack = createNativeStackNavigator()
+
+const AccountNavigation = () => {
+    return (
+        <AccountStack.Navigator>
+            <AccountStack.Screen name={'AccountsList'} component={AccountsScreen} options={{headerShown: false}}/>
+            <AccountStack.Screen name={'AccountOverview'} component={AccountOverviewScreen} options={{headerShown: false}}/>
+        </AccountStack.Navigator>
     )
 }
 const App = () => {
@@ -71,7 +83,7 @@ const App = () => {
                         })}>
                         <Tab.Screen name="Overview" component={HomeScreen} />
                         <Tab.Screen name="Guide Metrics" component={GuideNavigation}/>
-                        <Tab.Screen name="Accounts" component={AccountsScreen}/>
+                        <Tab.Screen name="Accounts" component={AccountNavigation}/>
                     </Tab.Navigator>
             // ) : (
             //     <>
