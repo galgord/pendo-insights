@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
 import {View, Text, StyleSheet, Pressable} from "react-native";
-import {Feather} from "@expo/vector-icons";
+import {AntDesign, Feather} from "@expo/vector-icons";
 
 
-const headerRight = () =>{
+const headerLeft = (navigation) =>{
     return (
-        <Pressable>
-            <Feather name="settings" size={21} color="black" style={styles.settingsIcon}/>
+        <Pressable onPress={() => navigation.goBack()}>
+            <AntDesign name="left" size={20} color="black" style={styles.leftArrow}/>
         </Pressable>
     )
 };
@@ -14,7 +14,10 @@ const headerRight = () =>{
 const GuideMetricsScreen = ({route, navigation}) => {
     const guide = route.params.guide;
     useEffect(()=> {
-        navigation.getParent().setOptions({headerTitle:guide.name, headerLeft: headerRight})
+        navigation.getParent().setOptions({
+            headerTitle:guide.name,
+            headerLeft: () => headerLeft(navigation)
+        })
     },[])
 
     return (
@@ -24,6 +27,10 @@ const GuideMetricsScreen = ({route, navigation}) => {
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    leftArrow: {
+        marginLeft: 10
+    }
+})
 
 export default GuideMetricsScreen;

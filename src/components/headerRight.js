@@ -10,7 +10,7 @@ const headerRight = (navigation) =>{
     )
 };
 
-const styles = StyleSheet({
+const styles = StyleSheet.create({
     settingsIcon: {
         marginRight: 14
     }

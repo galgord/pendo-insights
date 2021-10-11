@@ -13,19 +13,20 @@ import {
 import GuideListCard from "../../components/GuideListCard";
 import {fetchGuideList} from "./GuideScreen.utils";
 import axios from "axios";
-
+import headerLeft from '../../components/headerLeft'
 
 const GuidesScreen = ({ navigation }) => {
     const [guides, setGuides] = useState(null);
     const [count, setCount] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [haveGuides, setHaveGuides] = useState(false)
-    const [headerTitle, setHeaderTitle] = useState('My Guides')
-    console.warn('navigation.isFocused()', navigation.isFocused())
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            navigation.getParent().setOptions({headerTitle: headerTitle})
+            navigation.getParent().setOptions({
+                headerTitle: 'My Guides',
+                headerLeft
+            })
         });
         return unsubscribe;
     }, [navigation]);

@@ -70,7 +70,7 @@ const App = () => {
                             headerRight: () => {return headerRight(navigation)}
                         })}>
                         <Tab.Screen name="Overview" component={HomeScreen} />
-                        <Tab.Screen name="Guide Metrics" component={GuideNavigation} options={{headerTitle: 'My guides'}}/>
+                        <Tab.Screen name="Guide Metrics" component={GuideNavigation}/>
                         <Tab.Screen name="Accounts" component={AccountsScreen}/>
                     </Tab.Navigator>
             // ) : (
