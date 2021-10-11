@@ -44,7 +44,7 @@ const GuidesScreen = ({ navigation }) => {
                         if(guide.name.length > 35){
                             return {
                                 ...guide,
-                                name: guide.name.slice(0,35) + '...'
+                                newName: guide.name.slice(0,35) + '...'
                             }
                         } else {
                             return guide
@@ -68,7 +68,7 @@ const GuidesScreen = ({ navigation }) => {
     const renderItem = ({item}) => (
         <Pressable onPress={() => navigation.navigate('GuideMetrics', {guide:item})}>
             <GuideListCard
-            name={item.name}
+            name={item.newName || item.name}
             app={item.app}
             state={item.state}
         />
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
       height: 60,
       marginTop: 15,
       paddingLeft: 22,
+      marginBottom: 4,
       width: '90%',
       borderWidth: 1,
       borderColor: '#DADCE5'
