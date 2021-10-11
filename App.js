@@ -1,35 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Platform, Pressable} from 'react-native';
+import { StyleSheet, Platform} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen'
 import GuidesScreen from './src/screens/GuideScreen/GuidesScreen'
 import AccountsScreen from './src/screens/AccountScreen/AccountsScreen'
 import LoginScreen from './src/screens/LoginScreen/LoginScreen'
+import GuideMetricScreen from './src/screens/GuideMetricScreen/GuideMetricsScreen'
 import LogoutScreen from './src/screens/LogoutScreen/LogoutScreen'
 import PendoTabBarIcon from './src/icons/PendoTabBarIcon'
-import { Feather } from '@expo/vector-icons';
 import {createStackNavigator} from "@react-navigation/stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux'
+import headerLeft from "./src/components/headerLeft";
+import headerRight from "./src/components/headerRight";
 
-const headerLeft = () => {
+
+const GuideStack = createNativeStackNavigator()
+
+const GuideNavigation = () => {
     return (
-        <Image
-            style={styles.tinyLogo}
-            source={require('./src/assets/logo.png')}
-        />
+        <GuideStack.Navigator>
+            <GuideStack.Screen name={'Guides'} component={GuidesScreen} options={{
+                headerShown: false,
+            }}/>
+            <GuideStack.Screen name={'GuideMetrics'} component={GuideMetricScreen} options={({ route }) => ({
+                headerTitle: route.params.guide.name,
+                headerShown: false,
+            })}/>
+        </GuideStack.Navigator>
     )
 }
-
-const headerRight = (navigation) =>{
-    return (
-        <Pressable onPress={() => navigation.navigate('Logout')}>
-            <Feather name="settings" size={21} color="black" style={styles.settingsIcon}/>
-        </Pressable>
-    )
-};
-
-
 const App = () => {
     const [isuserAuth, setUserisUserAuth] = useState(false)
     const tempUser = useSelector(state => state.user)
@@ -37,6 +38,8 @@ const App = () => {
     useEffect(() => {
         tempUser.idToken ? setUserisUserAuth(tempUser): setUserisUserAuth(false);
     },[tempUser])
+    const Tab = createBottomTabNavigator();
+    const Stack = createStackNavigator()
 
 
     const Home = () => {
@@ -54,7 +57,7 @@ const App = () => {
                                     iconName = focused ? 'OverviewSelected' : 'OverviewNotSelected';
                                 } else if (route.name === 'Guide Metrics') {
                                     iconName = focused ? 'GuideSelected' : 'GuidesNotSelected';
-                                } else if (route.name === 'Account') {
+                                } else if (route.name === 'Accounts') {
                                     iconName = focused ? 'AccountsSelected' : 'AccountsNotSelected';
                                 }
                                 return <PendoTabBarIcon iconName={iconName} style={styles.icon}/>;
@@ -67,8 +70,8 @@ const App = () => {
                             headerRight: () => {return headerRight(navigation)}
                         })}>
                         <Tab.Screen name="Overview" component={HomeScreen} />
-                        <Tab.Screen name="Guide Metrics" component={GuidesScreen}/>
-                        <Tab.Screen name="Account" component={AccountsScreen}/>
+                        <Tab.Screen name="Guide Metrics" component={GuideNavigation} options={{headerTitle: 'My guides'}}/>
+                        <Tab.Screen name="Accounts" component={AccountsScreen}/>
                     </Tab.Navigator>
             // ) : (
             //     <>
@@ -80,8 +83,7 @@ const App = () => {
         );
     }
 
-    const Tab = createBottomTabNavigator();
-    const Stack = createStackNavigator()
+
         return (
         <NavigationContainer style={styles.root}>
             <Stack.Navigator>
@@ -111,14 +113,6 @@ const styles = StyleSheet.create({
           justifyContent: 'center',
           alignItems: 'center',
           position: 'absolute'
-      },
-    tinyLogo: {
-        width: 22,
-        height: 22,
-        marginLeft: 14,
-    },
-    settingsIcon: {
-        marginRight: 14
-    }
+      }
 });
 export default App;

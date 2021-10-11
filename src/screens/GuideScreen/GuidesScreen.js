@@ -8,16 +8,29 @@ import {
     ActivityIndicator,
     Image,
     Dimensions,
-    Platform
+    Pressable
 } from 'react-native';
 import GuideListCard from "../../components/GuideListCard";
 import {fetchGuideList} from "./GuideScreen.utils";
 import axios from "axios";
-const GuidesScreen = () => {
+
+
+const GuidesScreen = ({ navigation }) => {
     const [guides, setGuides] = useState(null);
     const [count, setCount] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [haveGuides, setHaveGuides] = useState(false)
+    const [headerTitle, setHeaderTitle] = useState('My Guides')
+    console.warn('navigation.isFocused()', navigation.isFocused())
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            navigation.getParent().setOptions({headerTitle: headerTitle})
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+
     useEffect(() =>{
         async function fetchGuides() {
             setIsLoading(true)
@@ -52,12 +65,16 @@ const GuidesScreen = () => {
         fetchGuides();
     }, [])
     const renderItem = ({item}) => (
-        <GuideListCard
+        <Pressable onPress={() => navigation.navigate('GuideMetrics', {guide:item})}>
+            <GuideListCard
             name={item.name}
             app={item.app}
             state={item.state}
         />
+        </Pressable>
     );
+
+
     return (
         <SafeAreaView style={styles.container}>
             { isLoading ? (
