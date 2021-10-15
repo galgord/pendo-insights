@@ -66,7 +66,7 @@ const GuidesScreen = ({ navigation }) => {
         fetchGuides();
     }, [])
     const renderItem = ({item}) => (
-        <Pressable onPress={() => navigation.navigate('GuideMetrics', {guide:item})}>
+        <Pressable onPress={() => navigation.navigate('GuideOverview', {guide:item})}>
             <GuideListCard
             name={item.newName || item.name}
             app={item.app}

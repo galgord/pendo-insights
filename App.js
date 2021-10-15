@@ -7,7 +7,6 @@ import GuidesScreen from './src/screens/GuideScreen/GuidesScreen'
 import AccountsScreen from './src/screens/AccountScreen/AccountsScreen'
 import AccountOverviewScreen from './src/screens/AccountOverviewScreen/AccountOverviewScreen'
 import LoginScreen from './src/screens/LoginScreen/LoginScreen'
-import GuideMetricScreen from './src/screens/GuideMetricScreen/GuideMetricsScreen'
 import LogoutScreen from './src/screens/LogoutScreen/LogoutScreen'
 import PendoTabBarIcon from './src/icons/PendoTabBarIcon'
 import {createStackNavigator} from "@react-navigation/stack";
@@ -15,6 +14,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux'
 import headerLeft from "./src/components/headerLeft";
 import headerRight from "./src/components/headerRight";
+import GuideOverviewScreen from "./src/screens/GuieOverviewScreen/GuideOverviewScreen";
 
 
 const GuideStack = createNativeStackNavigator()
@@ -25,7 +25,7 @@ const GuideNavigation = () => {
             <GuideStack.Screen name={'Guides'} component={GuidesScreen} options={{
                 headerShown: false,
             }}/>
-            <GuideStack.Screen name={'GuideMetrics'} component={GuideMetricScreen} options={({ route }) => ({
+            <GuideStack.Screen name={'GuideOverview'} component={GuideOverviewScreen} options={({ route }) => ({
                 headerTitle: route.params.guide.name,
                 headerShown: false,
             })}/>

@@ -53,6 +53,14 @@ const PendoTabBarIcon = ({iconName, style}) => {
                     </Svg>
                 </View>
             )
+        case 'FilterIcon':
+            return (
+                <View style={style}>
+                    <Svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Path d="M14.6666 1H1.33325L6.66659 7.30667V11.6667L9.33325 13V7.30667L14.6666 1Z" stroke="#2A2C35" stroke-linecap="round" stroke-linejoin="round"/>
+                    </Svg>
+                </View>
+            )
     }
 };
 export default PendoTabBarIcon;
