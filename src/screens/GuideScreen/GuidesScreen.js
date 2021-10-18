@@ -14,10 +14,13 @@ import GuideListCard from "../../components/GuideListCard";
 import {fetchGuideList} from "./GuideScreen.utils";
 import axios from "axios";
 import headerLeft from '../../components/headerLeft'
+import {SearchBar} from "react-native-elements";
 
 const GuidesScreen = ({ navigation }) => {
     const [guides, setGuides] = useState(null);
+    const [filteredGuides, setFilteredGuides] = useState([]);
     const [count, setCount] = useState(null);
+    const [search, setSearch] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [haveGuides, setHaveGuides] = useState(false)
 
@@ -31,40 +34,51 @@ const GuidesScreen = ({ navigation }) => {
         return unsubscribe;
     }, [navigation]);
 
-
-    useEffect(() =>{
-        async function fetchGuides() {
-            setIsLoading(true)
-            try {
-                const response = await fetchGuideList();
-                if (response.data.messages[0].url){
-                    const url = response.data.messages[0].url
-                    const res = await axios.get(url)
-                    const guideData = res.data.map((guide) => {
-                        if(guide.name.length > 35){
-                            return {
-                                ...guide,
-                                newName: guide.name.slice(0,35) + '...'
-                            }
-                        } else {
-                            return guide
+    async function fetchGuides() {
+        setIsLoading(true)
+        try {
+            const response = await fetchGuideList();
+            if (response.data.messages[0].url){
+                const url = response.data.messages[0].url
+                const res = await axios.get(url)
+                const guideData = res.data.map((guide) => {
+                    if(guide.name.length > 35){
+                        return {
+                            ...guide,
+                            newName: guide.name.slice(0,35) + '...'
                         }
-                    })
-                    setGuides(guideData)
-                    setCount(guideData.length)
-                    setHaveGuides(true)
-                    setIsLoading(false)
-                } else {
-                    setGuides(response.data)
-                    setCount(response.data.length)
-                    setIsLoading(false)
-                }
-            } catch (e){
-                console.warn('error', e)
+                    } else {
+                        return guide
+                    }
+                })
+                setGuides(guideData)
+                setCount(guideData.length)
+                setHaveGuides(true)
+                setIsLoading(false)
+            } else {
+                setGuides(response.data)
+                setCount(response.data.length)
+                setIsLoading(false)
             }
+        } catch (e){
+            console.warn('error', e)
         }
+    }
+    useEffect(() =>{
         fetchGuides();
     }, [])
+
+    useEffect(() => {
+        if (!guides){
+            return
+        }
+        if (search === ''){
+            setFilteredGuides([])
+        } else {
+            const filterGuides = Object.values(guides).filter((guide) => guide.name.toLowerCase().includes(search.toLowerCase()));
+            setFilteredGuides(filterGuides)
+        }
+        },[search])
     const renderItem = ({item}) => (
         <Pressable onPress={() => navigation.navigate('GuideOverview', {guide:item})}>
             <GuideListCard
@@ -94,12 +108,29 @@ const GuidesScreen = ({ navigation }) => {
                         </>
                         ) : (
                         <>
+                            <View style={styles.searchBar}>
+                                <SearchBar
+                                    onChangeText={setSearch}
+                                    value={search}
+                                    lightTheme
+                                    placeholder="Type Here..."/>
+                            </View>
                             <View style={styles.guideCountContainer}>
                                 <Text style={styles.guideCount}> You Have {count} Public Guides </Text>
                             </View>
+                            { filteredGuides.length !== 0 ? (
+                                <>
+                                    <View style={styles.guidesContainer}>
+                                        <FlatList data={filteredGuides} renderItem={renderItem} keyExtractor={data => data.id}/>
+                                    </View>
+                                </>
+                            ) : (
+                                <>
                             <View style={styles.guidesContainer}>
                                 <FlatList data={guides} renderItem={renderItem} keyExtractor={data => data.id}/>
                             </View>
+                                </>
+                            )}
                         </>
                         )}
                         </>
@@ -146,6 +177,9 @@ const styles = StyleSheet.create({
     imageContainer: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    searchBar: {
+        width: '100%'
     }
 });
 

@@ -14,7 +14,6 @@ import {
 
 const GuideMetricsScreen = ({guide}) => {
     // const guide = route.params.guide;
-    console.log(guide)
     const [data,setData] = useState([{ y: 0 },{ y: 1 }])
     const [firstTimeViews, setFirstTimeViews] = useState(null);
     const [isLoadingFirstTimeViews,setIsLoadingFirstTimeViews ]=useState(true)
