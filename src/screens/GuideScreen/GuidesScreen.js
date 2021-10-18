@@ -110,9 +110,11 @@ const GuidesScreen = ({ navigation }) => {
                         <>
                             <View style={styles.searchBar}>
                                 <SearchBar
+                                    inputContainerStyle={{backgroundColor: 'white'}}
+                                    containerStyle={{backgroundColor: 'none'}}
                                     onChangeText={setSearch}
                                     value={search}
-                                    lightTheme
+                                    lightTheme={'default'}
                                     placeholder="Type Here..."/>
                             </View>
                             <View style={styles.guideCountContainer}>
