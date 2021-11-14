@@ -4,21 +4,20 @@ import PendoFilterBar from '../../components/PendoFilterBar'
 import {Card} from "react-native-elements";
 import PendoDivider from "../../components/PendoDivider";
 import {VictoryPie} from "victory-native";
-import {getFirstTimeViews, getTotalViews} from './GuideMetricsScreen.utils';
-import {
-    fetchAccountOverviewLast30Days, fetchActiveGuides, fetchNPSScore,
-    fetchVisitorOverviewLast30Days,
-    parseNumber
-} from "../HomeScreen/HomeScreen.utils";
-import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
+import {getFirstTimeViews, getTotalViews, getAverageTime} from './GuideMetricsScreen.utils';
+import {parseNumber, msToTime} from "../HomeScreen/HomeScreen.utils";
+import get from 'lodash/get'
 
 const GuideMetricsScreen = ({guide}) => {
     // const guide = route.params.guide;
     const [data,setData] = useState([{ y: 0 },{ y: 1 }])
     const [firstTimeViews, setFirstTimeViews] = useState(null);
     const [totalViews, setTotalViews] = useState(null);
+    const [average, setAverage] = useState(null);
+    const [median, setMedian] = useState(null);
     const [isLoadingFirstTimeViews,setIsLoadingFirstTimeViews ]=useState(true)
+    const [isLoadingAverage,setIsLoadingAverage ]=useState(true)
+    const [isLoadingMedian,setIsLoadingMedian ]=useState(true)
     const [isLoadingTotalViews,setIsLoadingTotalViews ]=useState(true)
 
     useEffect(() => {
@@ -42,8 +41,22 @@ const GuideMetricsScreen = ({guide}) => {
                 setIsLoadingTotalViews(false)
             }
         }
+        async function fetchAverageTime() {
+            if(!guide){
+                return
+            }else {
+                const response = await getAverageTime(guide.id,guide.steps[0].id);
+                const average = msToTime(get(response,'data.messages[0].rows[1].average', 0))
+                const median = msToTime(get(response,'data.messages[0].rows[1].median', 0))
+                setAverage(average)
+                setMedian(median)
+                setIsLoadingAverage(false)
+                setIsLoadingMedian(false)
+            }
+        }
         fetchFirstTimeGuides();
-        fetchTotalViews()
+        fetchTotalViews();
+        fetchAverageTime();
     },[guide])
 
     useEffect(() => {
@@ -101,12 +114,13 @@ const GuideMetricsScreen = ({guide}) => {
                 </View>
                 <View style={styles.textWrapper}>
                     <PendoDivider
-                        textLeft='First Time Views'
-                        textRight='Total Views'
-                        numberLeft='37'
-                        numberRight='47'
-                        isLoadingLeft={false}
-                        isLoadingRight={false}
+                        textLeft='Average Time On Guide'
+                        textRight='Median View Time'
+                        numberLeft={average}
+                        numberRight={median}
+                        isLoadingLeft={isLoadingAverage}
+                        isLoadingRight={isLoadingMedian}
+                        labelStyle={{fontSize:16}}
                     />
                 </View>
             </Card>

@@ -133,3 +133,15 @@ export async function fetchNPSScore () {
     var npsScore = JSON.stringify({"response":{"location":"request","mimeType":"application/json"},"requests":[{"name":"polls-nps-score","pipeline":[{"source":{"pollEvents":{"guideId":"qlONt_EWU0g5bMvCagtCdd05Xas","pollId":"9ctsdjy0ba4","blacklist":"apply"},"timeSeries":{"period":"dayRange","first":1633665600000,"count":1}}},{"identified":"visitorId"},{"filter":"excluded != true"},{"eval":{"detractors":"if(pollResponse < 7, 1, 0)","passive":"if(pollResponse >= 7 && pollResponse < 9, 1, 0)","promoters":"if(pollResponse >= 9, 1, 0)"}},{"reduce":{"detractors":{"sum":"detractors"},"passive":{"sum":"passive"},"promoters":{"sum":"promoters"}}},{"eval":{"total":"detractors + passive + promoters"}},{"eval":{"score":"if(total > 0, (promoters - detractors)/total, 0)"}}],"streamId":"polls-nps-score-1759","requestId":"polls-nps-score-rId-94e18423-93b7-4279-9d87-7a438e9a4996"}]});
     return fetchData(npsScore);
 }
+export function msToTime(s) {
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    if (mins === 0) {
+       return  secs + 's';
+    } else {
+        return mins + 'm' + ' ' + secs + 's';
+    }
+}
