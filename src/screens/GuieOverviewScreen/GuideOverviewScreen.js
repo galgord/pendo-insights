@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {StyleSheet, Pressable, SafeAreaView} from "react-native";
+import React, {useEffect, useState} from "react";
+import {StyleSheet, Pressable, SafeAreaView, Image, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -15,7 +15,7 @@ const headerLeft = (navigation) =>{
 };
 
 const GuideOverviewScreen = ({route, navigation}) => {
-
+    const [isGuideStep, setIsGuideStep] = useState(true);
     const guide = route.params.guide;
     useEffect(()=> {
         navigation.getParent().setOptions({
@@ -26,15 +26,35 @@ const GuideOverviewScreen = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={{flex:1}}>
+            { isGuideStep ? (
+                <>
+                <Pressable style={styles.imageWrapper} onPress={() => setIsGuideStep(!isGuideStep)}>
+                    <Image source={require('../../assets/guideStep.png')}
+                           style={{width: '95%', height: 350, margin: 10}}/>
+                </Pressable>
+                <Tab.Navigator
+                    screenOptions={{
+                        tabBarItemStyle: styles.tabBarItemStyle,
+                        tabBarLabelStyle: styles.tabBarLabelStyle,
+                        tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
+                    }}>
+                    <Tab.Screen name="Metrics" children={() => <GuideMetricsScreen guide={guide}/>}/>
+                    <Tab.Screen name="Responses" component={GuideMetricsScreen}/>
+                </Tab.Navigator>
+                </>
+                ) : (
+                    <>
             <Tab.Navigator
                 screenOptions={{
                     tabBarItemStyle: styles.tabBarItemStyle,
                     tabBarLabelStyle: styles.tabBarLabelStyle,
                     tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
                 }}>
-                <Tab.Screen name="Metrics" children={() => <GuideMetricsScreen guide={guide}/>}  />
-                <Tab.Screen name="Responses" component={GuideMetricsScreen} />
+                <Tab.Screen name="Metrics" children={() => <GuideMetricsScreen guide={guide}/>}/>
+                <Tab.Screen name="Responses" component={GuideMetricsScreen}/>
             </Tab.Navigator>
+                    </>
+                )}
         </SafeAreaView>
     )
 }
@@ -73,5 +93,4 @@ const styles = StyleSheet.create({
         left:'15%'
     },
 })
-
 export default GuideOverviewScreen;

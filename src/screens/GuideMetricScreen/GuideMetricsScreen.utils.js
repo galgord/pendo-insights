@@ -81,7 +81,85 @@ export async function getFirstTimeViews (guideId,guideStepId) {
     });
     return fetchData(firstTimeGuide);
 }
-export async function getTotalViews () {
-    var firstTimeGuide = JSON.stringify({"response":{"location":"request","mimeType":"application/json"},"requests":[{"name":"GuideTotalViews","pipeline":[{"source":{"guideEvents":{"guideId":"TCKLHtswDWukF-ZZalgosK9ulu0","blacklist":"apply"},"timeSeries":{"first":"1631678400000","period":"daily","last":"1634184000000"}}},{"identified":"visitorId"},{"filter":"eventSubType(type) == \"guideSeen\""},{"filter":"browserTime >= 1631678400000 && browserTime < 1634270400000"},{"fork":[[{"filter":"guideStepId == \"O6UDK3dNMIGmREtO3PO1Fmx9vAg\""},{"reduce":{"count":{"count":null}}}],[{"reduce":{"totalStepCount":{"count":null}}}]]},{"join":{"fields":[]}}],"streamId":"e49f7546-326a-46bb-9424-8891dc690f9d","params":{"blacklist":"apply","includeAnonymous":"visitorId","segmentId":null,"appId":"expandAppIds(\"*\")","languageCode":null,"guideId":"TCKLHtswDWukF-ZZalgosK9ulu0","kind":"viewCount","range":{"start":1631678400000,"end":1634270400000},"stepId":"O6UDK3dNMIGmREtO3PO1Fmx9vAg","timeSeries":{"first":"1631678400000","period":"daily","last":"1634184000000"}},"requestId":"GuideTotalViews-rId-4b80c811-7881-4ed1-83f6-7e1672771409"}]});
-    return fetchData(firstTimeGuide);
+export async function getTotalViews (guideId, guideStepId) {
+    var totalViews = JSON.stringify({
+        "response": {
+            "location": "request",
+            "mimeType": "application/json"
+        },
+        "requests": [
+            {
+                "name": "GuideTotalViews",
+                "pipeline": [
+                    {
+                        "source": {
+                            "guideEvents": {
+                                "guideId": guideId,
+                                "blacklist": "apply"
+                            },
+                            "timeSeries": {
+                                "period": "dayRange",
+                                "first": 1634270400000,
+                                "count": 30
+                            }
+                        }
+                    },
+                    {
+                        "identified": "visitorId"
+                    },
+                    {
+                        "filter": "eventSubType(type) == \"guideSeen\""
+                    },
+                    {
+                        "fork": [
+                            [
+                                {
+                                    "filter": `guideStepId == \"${guideStepId}\"`
+                                },
+                                {
+                                    "reduce": {
+                                        "count": {
+                                            "count": null
+                                        }
+                                    }
+                                }
+                            ],
+                            [
+                                {
+                                    "reduce": {
+                                        "totalStepCount": {
+                                            "count": null
+                                        }
+                                    }
+                                }
+                            ]
+                        ]
+                    },
+                    {
+                        "join": {
+                            "fields": []
+                        }
+                    }
+                ],
+                "streamId": "6fe6ce4f-9735-4823-95fc-6c8cb51d5e2d",
+                "params": {
+                    "blacklist": "apply",
+                    "includeAnonymous": "visitorId",
+                    "segmentId": null,
+                    "appId": "expandAppIds(\"*\")",
+                    "timeSeries": {
+                        "period": "dayRange",
+                        "first": 1634270400000,
+                        "count": 30
+                    },
+                    "languageCode": null,
+                    "kind": "view",
+                    "stepId": guideStepId,
+                    "guideId": guideId
+                },
+                "requestId": "GuideTotalViews-rId-6e7edfd7-dc80-46c5-81c3-229a0ecd06c1"
+            }
+        ]
+    });
+    return fetchData(totalViews);
 }

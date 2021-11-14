@@ -4,19 +4,22 @@ import PendoFilterBar from '../../components/PendoFilterBar'
 import {Card} from "react-native-elements";
 import PendoDivider from "../../components/PendoDivider";
 import {VictoryPie} from "victory-native";
-import {getFirstTimeViews} from './GuideMetricsScreen.utils';
+import {getFirstTimeViews, getTotalViews} from './GuideMetricsScreen.utils';
 import {
     fetchAccountOverviewLast30Days, fetchActiveGuides, fetchNPSScore,
     fetchVisitorOverviewLast30Days,
     parseNumber
 } from "../HomeScreen/HomeScreen.utils";
+import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 
 const GuideMetricsScreen = ({guide}) => {
     // const guide = route.params.guide;
     const [data,setData] = useState([{ y: 0 },{ y: 1 }])
     const [firstTimeViews, setFirstTimeViews] = useState(null);
+    const [totalViews, setTotalViews] = useState(null);
     const [isLoadingFirstTimeViews,setIsLoadingFirstTimeViews ]=useState(true)
+    const [isLoadingTotalViews,setIsLoadingTotalViews ]=useState(true)
 
     useEffect(() => {
         async function fetchFirstTimeGuides() {
@@ -29,7 +32,18 @@ const GuideMetricsScreen = ({guide}) => {
                 setIsLoadingFirstTimeViews(false)
             }
         }
+        async function fetchTotalViews() {
+            if(!guide){
+                return
+            }else {
+                const response = await getTotalViews(guide.id,guide.steps[0].id);
+                const number = parseNumber(response.data.messages[0].rows[0].totalStepCount)
+                setTotalViews(number)
+                setIsLoadingTotalViews(false)
+            }
+        }
         fetchFirstTimeGuides();
+        fetchTotalViews()
     },[guide])
 
     useEffect(() => {
@@ -55,9 +69,9 @@ const GuideMetricsScreen = ({guide}) => {
                         textLeft='First Time Views'
                         textRight='Total Views'
                         numberLeft={firstTimeViews}
-                        numberRight='47'
+                        numberRight={totalViews}
                         isLoadingLeft={isLoadingFirstTimeViews}
-                        isLoadingRight={false}
+                        isLoadingRight={isLoadingTotalViews}
                     />
                 </View>
                 <View style={styles.midContainer}>
