@@ -15,7 +15,7 @@ import {fetchGuideList} from "./GuideScreen.utils";
 import axios from "axios";
 import headerLeft from '../../components/headerLeft'
 import {SearchBar} from "react-native-elements";
-
+import headerRight from "../../components/headerRight";
 const GuidesScreen = ({ navigation }) => {
     const [guides, setGuides] = useState(null);
     const [filteredGuides, setFilteredGuides] = useState([]);
@@ -28,7 +28,8 @@ const GuidesScreen = ({ navigation }) => {
         const unsubscribe = navigation.addListener('focus', () => {
             navigation.getParent().setOptions({
                 headerTitle: 'My Guides',
-                headerLeft
+                headerLeft,
+                headerRight
             })
         });
         return unsubscribe;

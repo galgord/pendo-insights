@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View, StyleSheet, ScrollView, Text} from "react-native";
+import {View, StyleSheet, ScrollView, Text, Pressable} from "react-native";
 import PendoFilterBar from '../../components/PendoFilterBar'
 import {Card} from "react-native-elements";
 import PendoDivider from "../../components/PendoDivider";
@@ -9,7 +9,7 @@ import {parseNumber, msToTime} from "../HomeScreen/HomeScreen.utils";
 import get from 'lodash/get'
 
 const GuideMetricsScreen = ({guide}) => {
-    // const guide = route.params.guide;
+
     const [data,setData] = useState([{ y: 0 },{ y: 1 }])
     const [firstTimeViews, setFirstTimeViews] = useState(null);
     const [totalViews, setTotalViews] = useState(null);
@@ -20,6 +20,7 @@ const GuideMetricsScreen = ({guide}) => {
     const [isLoadingAverage,setIsLoadingAverage ]=useState(true)
     const [isLoadingMedian,setIsLoadingMedian ]=useState(true)
     const [isLoadingTotalViews,setIsLoadingTotalViews ]=useState(true)
+
     useEffect(() => {
         async function fetchFirstTimeGuides() {
             if(!guide){

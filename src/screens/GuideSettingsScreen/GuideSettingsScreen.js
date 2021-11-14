@@ -1,14 +1,10 @@
-import React, {useEffect,useState} from "react";
+import React from "react";
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import PendoGuideState from "../../components/PendoGuideState";
 
 
 const GuideSettingsScreen = ({navigation,route}) => {
     const guide = route.params
-    const [segment, setSegment] = useState(null);
-
-    useEffect(() => {
-    },[])
 
     return (
         <SafeAreaView style={styles.root}>
@@ -17,7 +13,7 @@ const GuideSettingsScreen = ({navigation,route}) => {
                     <Text>X</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{flexDirection:'row', justifyContent: 'center', marginHorizontal: 10, marginTop: 8}}>
+            <View style={{flexDirection:'row', justifyContent: 'center', marginHorizontal: 25, marginTop: 8}}>
                 <Text style={styles.guideName}>{guide.name}</Text>
                 <PendoGuideState state={'public'} stateStyle={styles.state}/>
             </View>
@@ -45,14 +41,14 @@ const GuideSettingsScreen = ({navigation,route}) => {
             </View>
             <View style={styles.textWrapper}>
                 <Text style={styles.leftText}>Segment</Text>
-                <Text></Text>
+                <Text>Custom Segment</Text>
             </View>
             <View style={{alignItems:'center'}}>
                 <View style={styles.horizontalLine} />
             </View>
             <View style={styles.goBackBtnWrapper}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={styles.goBacktBtn}>Never Mind, Go Back </Text>
+                    <Text style={styles.closeBtmBtn}>Close </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -70,13 +66,13 @@ const styles = StyleSheet.create({
         bottom: 35,
         width: '80%',
     },
-    goBacktBtn: {
+    closeBtmBtn: {
         textAlign: 'center',
         borderWidth: 1,
-        borderColor: '#E6416A',
+        borderColor: '#128297',
         borderStyle: 'solid',
         borderRadius: 3,
-        color: '#E6416A',
+        color: '#128297',
         fontSize: 14,
         lineHeight: 17,
         paddingVertical: 18
@@ -90,10 +86,13 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
         fontSize: 26,
-        lineHeight: 28
+        lineHeight: 28,
+        marginTop: 22,
     },
     state: {
         justifyContent: 'center',
+        marginTop: 18,
+        marginLeft: 11
     },
     horizontalLine: {
         height: 1,

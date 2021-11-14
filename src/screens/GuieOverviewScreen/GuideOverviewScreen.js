@@ -34,12 +34,16 @@ const GuideOverviewScreen = ({route, navigation}) => {
     const [isGuideStep, setIsGuideStep] = useState(true);
     const guide = route.params.guide;
     useEffect(()=> {
-        navigation.getParent().setOptions({
-            headerTitle:guide.name,
-            headerLeft: () => headerLeft(navigation),
-            headerRight: () => headerRight(navigation, guide)
-        })
-    },[])
+        const unsubscribe = navigation.addListener('focus', () => {
+            console.warn('focus')
+            navigation.getParent().setOptions({
+                headerTitle: guide.name,
+                headerLeft: () => headerLeft(navigation),
+                headerRight: () => headerRight(navigation, guide)
+            })
+        });
+    return unsubscribe;
+    },[navigation])
     useEffect(() => {
         setIsGuideStep(false)
     }, [])
