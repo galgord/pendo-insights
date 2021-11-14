@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import headerLeft from "./src/components/headerLeft";
 import headerRight from "./src/components/headerRight";
 import GuideOverviewScreen from "./src/screens/GuieOverviewScreen/GuideOverviewScreen";
+import GuideSettingsScreen from "./src/screens/GuideSettingsScreen/GuideSettingsScreen";
 
 
 const GuideStack = createNativeStackNavigator()
@@ -101,6 +102,7 @@ const App = () => {
             <Stack.Navigator>
                 <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
                 <Stack.Screen name="Logout" component={LogoutScreen} options={{headerShown: false}} />
+                <Stack.Screen name="GuideSettings" component={GuideSettingsScreen} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>
         );

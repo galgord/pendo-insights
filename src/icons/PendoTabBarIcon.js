@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path,Rect } from 'react-native-svg';
 
 const PendoTabBarIcon = ({iconName, style}) => {
     switch (iconName){
@@ -60,6 +60,16 @@ const PendoTabBarIcon = ({iconName, style}) => {
                         <Path d="M14.6666 1H1.33325L6.66659 7.30667V11.6667L9.33325 13V7.30667L14.6666 1Z" stroke="#2A2C35" stroke-linecap="round" stroke-linejoin="round"/>
                     </Svg>
                 </View>
+            )
+        case 'guideSettings':
+            return (
+            <View style={style}>
+                <Svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path d="M17.4102 21.6083L14.8779 25.3298L12.6024 21.6277C12.5115 21.4797 12.3502 21.3895 12.1765 21.3895H4.52942C4.25328 21.3895 4.02942 21.1657 4.02942 20.8895V4.75C4.02942 4.47386 4.25328 4.25 4.52942 4.25H25.4706C25.7467 4.25 25.9706 4.47386 25.9706 4.75V20.8895C25.9706 21.1657 25.7467 21.3895 25.4706 21.3895H17.8235C17.658 21.3895 17.5033 21.4714 17.4102 21.6083Z" stroke="#128297" stroke-linecap="round" stroke-linejoin="round"/>
+                    <Rect x="14.1177" y="11.25" width="1.76471" height="5.625" rx="0.882353" fill="#128297"/>
+                    <Rect x="14.1177" y="7.5" width="1.76471" height="1.875" rx="0.882353" fill="#128297"/>
+                </Svg>
+            </View>
             )
     }
 };

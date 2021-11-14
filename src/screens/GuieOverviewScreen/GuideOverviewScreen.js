@@ -4,12 +4,20 @@ import {AntDesign} from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import GuideMetricsScreen from "../GuideMetricScreen/GuideMetricsScreen";
+import PendoTabBarIcon from "../../icons/PendoTabBarIcon";
 const Tab = createMaterialTopTabNavigator();
 
 const headerLeft = (navigation) =>{
     return (
         <Pressable onPress={() => navigation.goBack()}>
             <AntDesign name="left" size={20} color="black" style={styles.leftArrow}/>
+        </Pressable>
+    )
+};
+const headerRight = (navigation,guide) =>{
+    return (
+        <Pressable onPress={() => navigation.navigate('GuideSettings', guide)}>
+            <PendoTabBarIcon style={styles.filterIcon} iconName='guideSettings'/>
         </Pressable>
     )
 };
@@ -28,7 +36,8 @@ const GuideOverviewScreen = ({route, navigation}) => {
     useEffect(()=> {
         navigation.getParent().setOptions({
             headerTitle:guide.name,
-            headerLeft: () => headerLeft(navigation)
+            headerLeft: () => headerLeft(navigation),
+            headerRight: () => headerRight(navigation, guide)
         })
     },[])
     useEffect(() => {
