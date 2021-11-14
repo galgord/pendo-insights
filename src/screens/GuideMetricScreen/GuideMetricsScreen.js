@@ -4,7 +4,7 @@ import PendoFilterBar from '../../components/PendoFilterBar'
 import {Card} from "react-native-elements";
 import PendoDivider from "../../components/PendoDivider";
 import {VictoryPie} from "victory-native";
-import {getFirstTimeViews, getTotalViews, getAverageTime} from './GuideMetricsScreen.utils';
+import {getFirstTimeViews, getTotalViews, getAverageTime, geVisitorsInGuideSegment} from './GuideMetricsScreen.utils';
 import {parseNumber, msToTime} from "../HomeScreen/HomeScreen.utils";
 import get from 'lodash/get'
 
@@ -15,11 +15,11 @@ const GuideMetricsScreen = ({guide}) => {
     const [totalViews, setTotalViews] = useState(null);
     const [average, setAverage] = useState(null);
     const [median, setMedian] = useState(null);
+    const [visitorsInGuideSegment, setVisitorsInGuideSegment] = useState(null);
     const [isLoadingFirstTimeViews,setIsLoadingFirstTimeViews ]=useState(true)
     const [isLoadingAverage,setIsLoadingAverage ]=useState(true)
     const [isLoadingMedian,setIsLoadingMedian ]=useState(true)
     const [isLoadingTotalViews,setIsLoadingTotalViews ]=useState(true)
-
     useEffect(() => {
         async function fetchFirstTimeGuides() {
             if(!guide){
@@ -54,14 +54,24 @@ const GuideMetricsScreen = ({guide}) => {
                 setIsLoadingMedian(false)
             }
         }
+        async function fetchVisitorsInGuideSegment() {
+            if(!guide){
+                return
+            }else {
+                const response = await geVisitorsInGuideSegment(guide);
+                const number = parseNumber(response.data.messages[0].rows[0].targeted)
+                setVisitorsInGuideSegment(number)
+            }
+        }
         fetchFirstTimeGuides();
         fetchTotalViews();
         fetchAverageTime();
+        fetchVisitorsInGuideSegment();
     },[guide])
 
     useEffect(() => {
         setTimeout(() =>{
-            setData([{y:60},{y:15}])
+            setData([{x:'seen',y:100},{x:'total',y: 70}])
         }, 500)
     }, [])
     return (
@@ -108,7 +118,7 @@ const GuideMetricsScreen = ({guide}) => {
                         }}
                     />
                     <View>
-                        <Text style={styles.pieTitle}>60 OF 75</Text>
+                        <Text style={styles.pieTitle}>{totalViews} OF {visitorsInGuideSegment}</Text>
                         <Text style={styles.pieSubTitle}>Eligible visitors</Text>
                     </View>
                 </View>

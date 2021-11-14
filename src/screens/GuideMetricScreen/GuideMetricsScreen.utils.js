@@ -422,3 +422,65 @@ export async function getAverageTime (guideId, guideStepId) {
     });
     return fetchData(averageTime);
 }
+export async function geVisitorsInGuideSegment (guide) {
+    var averageTime = JSON.stringify({
+        "response": {
+            "location": "request",
+            "mimeType": "application/json"
+        },
+        "requests": [
+            {
+                "name": "GuideDetails--VisitorsInGuideSegment",
+                "pipeline": [
+                    {
+                        "source": {
+                            "visitors": {
+                                "blacklist": "ignore",
+                                "identified": false
+                            }
+                        }
+                    },
+                    {
+                        "filter": "!isNil(metadata.auto__323232.firstvisit)"
+                    },
+                    {
+                        "eval": {
+                            "accountId": "metadata.auto.accountids"
+                        }
+                    },
+                    {
+                        "unwind": {
+                            "field": "accountId",
+                            "keepEmpty": true
+                        }
+                    },
+                    {
+                        "segment": {
+                            "pipeline": guide.audience
+                        }
+                    },
+                    {
+                        "fork": [
+                            [
+                                {
+                                    "reduce": {
+                                        "targeted": {
+                                            "count": "visitorId"
+                                        }
+                                    }
+                                }
+                            ]
+                        ]
+                    },
+                    {
+                        "join": {
+                            "fields": []
+                        }
+                    }
+                ],
+                "requestId": "GuideDetails--VisitorsInGuideSegment-rId-be49a0d4-3665-4253-a79e-251d2ff5dc10"
+            }
+        ]
+    });
+    return fetchData(averageTime);
+}
