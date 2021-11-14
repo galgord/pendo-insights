@@ -35,7 +35,6 @@ const GuideOverviewScreen = ({route, navigation}) => {
     const guide = route.params.guide;
     useEffect(()=> {
         const unsubscribe = navigation.addListener('focus', () => {
-            console.warn('focus')
             navigation.getParent().setOptions({
                 headerTitle: guide.name,
                 headerLeft: () => headerLeft(navigation),

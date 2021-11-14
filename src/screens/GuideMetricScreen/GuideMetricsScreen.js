@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View, StyleSheet, ScrollView, Text, Pressable} from "react-native";
+import {View, StyleSheet, ScrollView, Text, Pressable, Image} from "react-native";
 import PendoFilterBar from '../../components/PendoFilterBar'
 import {Card} from "react-native-elements";
 import PendoDivider from "../../components/PendoDivider";
@@ -80,11 +80,11 @@ const GuideMetricsScreen = ({guide}) => {
             <View style={styles.filterBar}>
                 <PendoFilterBar/>
             </View>
-            <View style={{alignItems:'center'}}>
+            <View style={{alignItems:'center', marginBottom:50}}>
                 <Card containerStyle={styles.containerStyle}>
                 <View style={styles.titleStyle}>
                     <View>
-                        <Card.Title style={styles.title}>Some Title</Card.Title>
+                        <Card.Title style={styles.title}>Top Stats</Card.Title>
                     </View>
                 </View>
                 <Card.Divider/>
@@ -135,6 +135,9 @@ const GuideMetricsScreen = ({guide}) => {
                     />
                 </View>
             </Card>
+                <Image source={require('../../assets/weeklyViews.png')} style={styles.weeklyViews}/>
+                <Image source={require('../../assets/timeOnGuide.png')} style={styles.timeOnGuide}/>
+
             </View>
         </ScrollView>
     )
@@ -142,7 +145,7 @@ const GuideMetricsScreen = ({guide}) => {
 
 const styles = StyleSheet.create({
     root:{
-        flex:1
+        flex:1,
     },
     midContainer:{
       flexDirection: 'row',
@@ -175,6 +178,16 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'center'
     },
+    weeklyViews: {
+        marginTop:16,
+        width: '90%',
+        height: 600
+    },
+    timeOnGuide: {
+        marginTop:16,
+        width: '90%',
+        height: 270
+    }
 })
 
 export default GuideMetricsScreen;

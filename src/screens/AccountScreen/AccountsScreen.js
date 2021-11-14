@@ -5,12 +5,14 @@ import AccountListItem from "../../components/AccountListItem";
 import {fetchAccounts} from './AccountScreen.utils'
 import axios from "axios";
 import headerLeft from "../../components/headerLeft";
-
+import {SearchBar} from "react-native-elements";
 
 
 const AccountsScreen = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [accounts, setAccounts] = useState(null);
+    const [search, setSearch] = useState(null);
+    const [filteredAccounts, setFilteredAccounts] = useState([]);
 
 
     useEffect(() => {
@@ -55,6 +57,17 @@ const AccountsScreen = ({navigation}) => {
         fetchAccountList();
     }, [])
 
+    useEffect(() => {
+        if (!accounts){
+            return
+        }
+        if (search === ''){
+            setFilteredAccounts([])
+        } else {
+            const filteredAccounts = Object.values(accounts).filter((account) => account.accountId.toLowerCase().includes(search.toLowerCase()));
+            setFilteredAccounts(filteredAccounts)
+        }
+    },[search])
     const renderItem = ({item}) => (
         <Pressable onPress={() => navigation.navigate('AccountOverview', {account:item})}>
             <AccountListItem
@@ -62,6 +75,13 @@ const AccountsScreen = ({navigation}) => {
             />
         </Pressable>
     );
+    const dataToShow = () => {
+        if (filteredAccounts.length === 0) {
+            return accounts
+        }else {
+            return filteredAccounts
+        }
+    }
 
     return (
         <SafeAreaView style={styles.root}>
@@ -74,6 +94,15 @@ const AccountsScreen = ({navigation}) => {
                 </>
             ):(
                 <>
+                    <View style={styles.searchBar}>
+                        <SearchBar
+                            inputContainerStyle={{backgroundColor: 'white'}}
+                            containerStyle={{backgroundColor: 'none'}}
+                            onChangeText={setSearch}
+                            value={search}
+                            lightTheme={'default'}
+                            placeholder="Type Here..."/>
+                    </View>
             <View style={styles.accountOverview}>
                 <PendoCard
                     title={'Account Overview'}
@@ -85,7 +114,7 @@ const AccountsScreen = ({navigation}) => {
                     labelStyle={styles.labelStyle}/>
             </View>
             <View style={styles.accountsList}>
-                <FlatList data={accounts} renderItem={renderItem} keyExtractor={data => data.accountId}/>
+                <FlatList data={dataToShow()} renderItem={renderItem} keyExtractor={data => data.accountId}/>
             </View>
                 </>
                 )}
@@ -107,13 +136,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     accountsList:{
-        flex: 3
+        flex: 3,
+        marginTop: 32
      },
     loading: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
+    searchBar: {
+        width: '100%'
+    }
 });
 
 export default AccountsScreen;
