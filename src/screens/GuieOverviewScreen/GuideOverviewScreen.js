@@ -13,6 +13,14 @@ const headerLeft = (navigation) =>{
         </Pressable>
     )
 };
+const imageStyle = (isGuideStep) => {
+    return {
+        width: '95%',
+        height: 350,
+        margin: 10,
+        display: isGuideStep ? 'none' : 'flex',
+    }
+}
 
 const GuideOverviewScreen = ({route, navigation}) => {
     const [isGuideStep, setIsGuideStep] = useState(true);
@@ -23,14 +31,14 @@ const GuideOverviewScreen = ({route, navigation}) => {
             headerLeft: () => headerLeft(navigation)
         })
     },[])
-
+    useEffect(() => {
+        setIsGuideStep(false)
+    }, [])
     return (
         <SafeAreaView style={{flex:1}}>
-            { isGuideStep ? (
-                <>
                 <Pressable style={styles.imageWrapper} onPress={() => setIsGuideStep(!isGuideStep)}>
                     <Image source={require('../../assets/guideStep.png')}
-                           style={{width: '95%', height: 350, margin: 10}}/>
+                           style={imageStyle(isGuideStep)}/>
                 </Pressable>
                 <Tab.Navigator
                     screenOptions={{
@@ -41,20 +49,6 @@ const GuideOverviewScreen = ({route, navigation}) => {
                     <Tab.Screen name="Metrics" children={() => <GuideMetricsScreen guide={guide}/>}/>
                     <Tab.Screen name="Responses" component={GuideMetricsScreen}/>
                 </Tab.Navigator>
-                </>
-                ) : (
-                    <>
-            <Tab.Navigator
-                screenOptions={{
-                    tabBarItemStyle: styles.tabBarItemStyle,
-                    tabBarLabelStyle: styles.tabBarLabelStyle,
-                    tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
-                }}>
-                <Tab.Screen name="Metrics" children={() => <GuideMetricsScreen guide={guide}/>}/>
-                <Tab.Screen name="Responses" component={GuideMetricsScreen}/>
-            </Tab.Navigator>
-                    </>
-                )}
         </SafeAreaView>
     )
 }
@@ -67,16 +61,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    guideStepImage:{
-        margin:10,
-        width:'90%',
-        height: 350
-    },
     tabBarLabelStyle: {
         fontSize: 14,
         color:'#2A2C35',
         textTransform: 'none'
-
     },
     tabBarActiveTintColor: {
         color:'#2A2C35'
