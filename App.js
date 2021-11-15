@@ -57,7 +57,7 @@ const App = () => {
 
     const Home = () => {
         return (
-            // isuserAuth ? (
+            isuserAuth ? (
                     <Tab.Navigator
                         initialRouteName="Overview"
                         screenOptions={({navigation, route}) => ({
@@ -86,13 +86,13 @@ const App = () => {
                         <Tab.Screen name="Guide Metrics" component={GuideNavigation}/>
                         <Tab.Screen name="Accounts" component={AccountNavigation}/>
                     </Tab.Navigator>
-            // ) : (
-            //     <>
-            //         <Stack.Navigator>
-            //             <Stack.Screen name='Login' component={LoginScreen} options={{headerShown: false}}/>
-            //         </Stack.Navigator>
-            //     </>
-            // )
+            ) : (
+                <>
+                    <Stack.Navigator>
+                        <Stack.Screen name='Login' component={LoginScreen} options={{headerShown: false}}/>
+                    </Stack.Navigator>
+                </>
+            )
         );
     }
 

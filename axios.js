@@ -13,3 +13,10 @@ export async function fetchData (data) {
             console.warn('error', error);
         });
 }
+export async function getRevenueForAccount (accountId) {
+    return axios
+        .get(`https://app.pendo.io/api/ss/pendo-internal/account/${accountId}`,options)
+        .catch((error) => {
+            console.warn('error', error);
+        });
+}

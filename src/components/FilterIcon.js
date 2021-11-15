@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Card} from "react-native-elements";
 
-const FilterIcon = ({filter}) => {
+const FilterIcon = ({filter,style}) => {
     return (
-                <Card.Title style={styles.filter}>{filter}</Card.Title>
+                <Card.Title style={[styles.filter, style]}>{filter}</Card.Title>
             )
 };
 
